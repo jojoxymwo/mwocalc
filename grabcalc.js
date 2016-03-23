@@ -1,91 +1,42 @@
-var cbills = [];
-var mc = [];
-var gxp = [];
-var pt = [];
+var cbills = 0;
+var mc = 0;
+var gxp = 0;
+var pt = 0;
 var cons = 0;
 var ci = 0;
 var trick = 0;
 var bay = 0;
 var grand = 0;
 var other = 0;
-$("tr td[class^='row_']").each(
+$("tr td[class^='bonusRow_'], tr td[class^='row_']").each(
     function(e){
         try {
-            var arr = $(this).text().split(': ');
-            var arr2 = arr[1].split(' ');
-            var value = arr2[0].replace(/,/g,'');
+            var text = $(this).text();
+            text = text.replace(',','');
 
-            if ($(this).text().indexOf("C-Bills:")>=0) {
-                cbills.push(value);    
+            if (text.indexOf("C-Bills")>=0) {
+                cbills+=parseFloat($.trim(text));    
             }
-            else if ($(this).text().indexOf("GXP:")>=0) {
-                gxp.push(value);    
+            else if (text.indexOf("MC")>=0) {
+                mc+=parseFloat($.trim(text));    
             }
-            else if ($(this).text().indexOf("MC:")>=0) {
-                mc.push(value);    
+            else if (text.indexOf("GXP")>=0) {
+                gxp+=parseFloat($.trim(text));    
             }
-            else if ($(this).text().indexOf("Premium Time:")>=0) {
-                pt.push(value);    
+            else if (text.indexOf("Premium Time")>=0) {
+                pt+=parseFloat($.trim(text));    
             }
-            else if ($(this).text().indexOf("Consumables:")>=0) {
-                cons+=1;
+            else if (text.indexOf("Strike")>=0 || text.indexOf("Coolant")>=0 || text.indexOf("UAV")>=0) {
+                cons+=1;    
             }
-            else if ($(this).text().indexOf("Cockpit Items:")>=0) {
-                ci+=1;
+            else if (text.indexOf("Flamer")>=0 || text.indexOf("Laser")>=0) {
+                trick+=1;    
             }
-            else if ($(this).text().indexOf("Trick:")>=0) {
-                trick+=1;
-            }
-            else if ($(this).text().indexOf("Mech' Bay:")>=0) {
-                bay+=1;
-            }
-            else if ($(this).text().indexOf("Grand:")>=0) {
-                grand+=1;
+            else if (text.indexOf("Green Beer")>=0) {
+                grand+=1;    
             }
             else {
-                other+=1;
-            }
-        } catch(err) {
-            return;
-        }        
-    }
-);
-$("tr td[class^='bonusRow_']").each(
-    function(e){
-        try {
-            var arr = $(this).text().split(': ');
-            var arr2 = arr[1].split(' ');
-            var value = arr2[0].replace(/,/g,'');
-
-            if ($(this).text().indexOf("C-Bills:")>=0) {
-                cbills.push(value);    
-            }
-            else if ($(this).text().indexOf("GXP:")>=0) {
-                gxp.push(value);    
-            }
-            else if ($(this).text().indexOf("MC:")>=0) {
-                mc.push(value);    
-            }
-            else if ($(this).text().indexOf("Premium Time:")>=0) {
-                pt.push(value);    
-            }
-            else if ($(this).text().indexOf("Consumables:")>=0) {
-                cons+=1;
-            }
-            else if ($(this).text().indexOf("Cockpit Items:")>=0) {
                 ci+=1;
-            }
-            else if ($(this).text().indexOf("Trick:")>=0) {
-                trick+=1;
-            }
-            else if ($(this).text().indexOf("Mech' Bay:")>=0) {
-                bay+=1;
-            }
-            else if ($(this).text().indexOf("Grand:")>=0) {
-                grand+=1;
-            }
-            else {
-                other+=1;
             }
         } catch(err) {
             return;
@@ -93,26 +44,10 @@ $("tr td[class^='bonusRow_']").each(
     }
 );
 
-var totalc = 0;
-for (var i = 0; i < cbills.length; i++) {
-    totalc += parseFloat(cbills[i]) << 0;
-}
-var totalg = 0;
-for (var i = 0; i < gxp.length; i++) {
-    totalg += parseFloat(gxp[i]) << 0;
-}
-var totalm = 0;
-for (var i = 0; i < mc.length; i++) {
-    totalm += parseFloat(mc[i]) << 0;
-}
-var totalpt = 0;
-for (var i = 0; i < pt.length; i++) {
-    totalpt += parseFloat(pt[i]) << 0;
-}
-var text=totalc +' C-Bills<br>'
- + totalg +' GXP<br>'
- + totalm+' MC<br>'
- + totalpt+' Days Premium Time<br>'
+var text=cbills +' C-Bills<br>'
+ + gxp +' GXP<br>'
+ + mc+' MC<br>'
+ + pt+' Days Premium Time<br>'
  + cons+'x Consumables<br>'
  + ci+'x Cockpit Items<br>'
  + trick+'x Tricks<br>'
