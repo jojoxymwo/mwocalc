@@ -39,6 +39,7 @@ $("tr td[class^='bonusRow_'], tr td[class^='row_']").each(
                 ci+=1;
             }
         } catch(err) {
+            other+=1;
             return;
         }        
     }
